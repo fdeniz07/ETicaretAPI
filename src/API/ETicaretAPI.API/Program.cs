@@ -1,4 +1,4 @@
-using ETicaretAPI.Persistence;
+using ETicaretAPI.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
