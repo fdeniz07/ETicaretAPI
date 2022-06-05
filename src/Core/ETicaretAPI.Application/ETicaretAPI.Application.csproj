@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ETicaretAPI.Domain\ETicaretAPI.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\Order\" />
+    <Folder Include="Repositories\Product\" />
   </ItemGroup>
 
 </Project>
