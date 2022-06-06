@@ -29,7 +29,7 @@ namespace ETicaretAPI.Persistence.Concrete.Repositories
             => await Table.FirstOrDefaultAsync(method);
 
         public async Task<T> GetByIdAsyn(string id)
-            => await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
-
+            // => await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id)); //Kullanilan ORM find metodunu desteklemezse, Marker Pattern uygulanabilinir.
+            => await Table.FindAsync(Guid.Parse(id));
     }
 }
