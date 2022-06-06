@@ -1,8 +1,8 @@
 ﻿using ETicaretAPI.Domain.Entities.Common;
 
-namespace ETicaretAPI.Application.Repositories
+namespace ETicaretAPI.Application.Abstract.Repositories
 {
-    public interface IWriteRepository<T> : IRepository<T> where T : BaseEntity
+    public interface IGenericWriteRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         Task<bool> AddAsync(T model);
 

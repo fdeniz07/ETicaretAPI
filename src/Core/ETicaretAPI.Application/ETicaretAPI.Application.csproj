@@ -14,9 +14,4 @@
     <ProjectReference Include="..\ETicaretAPI.Domain\ETicaretAPI.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\Order\" />
-    <Folder Include="Repositories\Product\" />
-  </ItemGroup>
-
 </Project>

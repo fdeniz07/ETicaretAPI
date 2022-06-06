@@ -1,16 +1,16 @@
-﻿using ETicaretAPI.Application.Repositories;
+﻿using ETicaretAPI.Application.Abstract.Repositories;
 using ETicaretAPI.Domain.Entities.Common;
 using ETicaretAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace ETicaretAPI.Persistence.Repositories
+namespace ETicaretAPI.Persistence.Concrete.Repositories
 {
-    public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
+    public class GenericReadRepository<T> : IGenericReadRepository<T> where T : BaseEntity
     {
         private readonly ETicaretAPIDbContext _context;
 
-        public ReadRepository(ETicaretAPIDbContext context)
+        public GenericReadRepository(ETicaretAPIDbContext context)
         {
             _context = context;
         }

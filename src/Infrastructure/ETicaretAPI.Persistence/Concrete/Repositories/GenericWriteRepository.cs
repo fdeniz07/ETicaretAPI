@@ -1,17 +1,17 @@
-﻿using ETicaretAPI.Application.Repositories;
+﻿using ETicaretAPI.Application.Abstract.Repositories;
 using ETicaretAPI.Domain.Entities.Common;
 using ETicaretAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace ETicaretAPI.Persistence.Repositories
+namespace ETicaretAPI.Persistence.Concrete.Repositories
 {
-    public class WriteRepository<T> : IWriteRepository<T> where T : BaseEntity
+    public class GenericWriteRepository<T> : IGenericWriteRepository<T> where T : BaseEntity
     {
         private readonly ETicaretAPIDbContext _context;
 
 
-        public WriteRepository(ETicaretAPIDbContext context)
+        public GenericWriteRepository(ETicaretAPIDbContext context)
         {
             _context = context;
         }
