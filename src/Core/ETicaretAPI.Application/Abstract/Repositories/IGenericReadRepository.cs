@@ -5,13 +5,13 @@ namespace ETicaretAPI.Application.Abstract.Repositories
 {
     public interface IGenericReadRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        IQueryable<T> GetAll();
+        IQueryable<T> GetAll(bool tracking = true);
 
-        IQueryable<T> GetWhere(Expression<Func<T,bool>> method);
+        IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tracking = true);
 
-        Task<T> GetSingleAsync(Expression<Func<T, bool>> method);
+        Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tracking = true);
 
-        Task<T> GetByIdAsyn(string id);
+        Task<T> GetByIdAsync(string id, bool tracking = true);
 
     }
 }

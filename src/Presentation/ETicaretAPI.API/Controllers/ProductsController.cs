@@ -22,20 +22,24 @@ namespace ETicaretAPI.API.Controllers
         [HttpGet]
         public async Task Get()
         {
-            await _productWriteRepository.AddRangeAsync(new()
-            {
-                new() { Id = Guid.NewGuid(), Name = "Product 1", Price = 100, CreatedDate = DateTime.UtcNow, Stock = 10 },
-                new() { Id = Guid.NewGuid(), Name = "Product 2", Price = 200, CreatedDate = DateTime.UtcNow, Stock = 20 },
-                new() { Id = Guid.NewGuid(), Name = "Product 3", Price = 300, CreatedDate = DateTime.UtcNow, Stock = 130 }
-            });
+            //await _productWriteRepository.AddRangeAsync(new()
+            //{
+            //    new() { Id = Guid.NewGuid(), Name = "Product 1", Price = 100, CreatedDate = DateTime.UtcNow, Stock = 10 },
+            //    new() { Id = Guid.NewGuid(), Name = "Product 2", Price = 200, CreatedDate = DateTime.UtcNow, Stock = 20 },
+            //    new() { Id = Guid.NewGuid(), Name = "Product 3", Price = 300, CreatedDate = DateTime.UtcNow, Stock = 130 }
+            //});
+            //var count = await _productWriteRepository.SaveAsync();
+
+            Product p = await _productReadRepository.GetByIdAsync("d6c50cc6-ef50-4e4b-a754-006aea53d82d", false);
+            p.Name = "Test2";
             await _productWriteRepository.SaveAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Find(string id)
         {
-           Product product= await _productReadRepository.GetByIdAsyn(id);
-           return Ok(product);
+            Product product = await _productReadRepository.GetByIdAsync(id);
+            return Ok(product);
         }
     }
 }
