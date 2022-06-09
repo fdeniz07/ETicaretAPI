@@ -4,7 +4,7 @@ namespace ETicaretAPI.Domain.Entities
 {
     public class Order : BaseEntity
     {
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
 
         public string Description { get; set; }
 
