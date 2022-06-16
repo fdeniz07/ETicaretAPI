@@ -15,22 +15,22 @@ namespace ETicaretAPI.API.Controllers
         private readonly IProductReadRepository _productReadRepository;
 
         private readonly IOrderWriteRepository _orderWriteRepository; //Test amacli, daha sonra kaldirilacak
+        private readonly IOrderReadRepository _orderReadRepository; //Test amacli, daha sonra kaldirilacak
         private readonly ICustomerWriteRepository _customerWriteRepository; //Test amacli, daha sonra kaldirilacak
 
-
-        public ProductsController(IProductWriteRepository productWriteRepository,
-            IProductReadRepository productReadRepository, IOrderWriteRepository orderWriteRepository, ICustomerWriteRepository customerWriteRepository)
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IOrderWriteRepository orderWriteRepository, IOrderReadRepository orderReadRepository, ICustomerWriteRepository customerWriteRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
             _orderWriteRepository = orderWriteRepository;
+            _orderReadRepository = orderReadRepository;
             _customerWriteRepository = customerWriteRepository;
         }
 
         //[HttpGet]
         //public async Task Get()
         //{
-        //    #region Örnek ilk verinin manuel eklenmesi
+        #region Örnek ilk verinin manuel eklenmesi
 
         //    //await _productWriteRepository.AddRangeAsync(new()
         //    //{
@@ -40,21 +40,23 @@ namespace ETicaretAPI.API.Controllers
         //    //});
         //    //var count = await _productWriteRepository.SaveAsync();
 
-        //    #endregion
+        #endregion
 
-        //    #region Get metodlarindaki  Tracking tanimlamasi
+        #region Get metodlarindaki  Tracking tanimlamasi
 
-        //    //Product p = await _productReadRepository.GetByIdAsync("d6c50cc6-ef50-4e4b-a754-006aea53d82d", false);
-        //    //p.Name = "Test2";
-        //    //await _productWriteRepository.SaveAsync();
+        //Product p = await _productReadRepository.GetByIdAsync("d6c50cc6-ef50-4e4b-a754-006aea53d82d", false);
+        //p.Name = "Test2";
+        //await _productWriteRepository.SaveAsync();
 
-        //    #endregion
+        #endregion
 
         //    //await _productWriteRepository.AddAsync(new()
         //    //{ Name = "C Product", Price = 1.500F, Stock = 10, CreatedDate = DateTime.UtcNow });
         //    //await _productWriteRepository.SaveAsync();
 
         //}
+
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Find(string id)
@@ -63,15 +65,36 @@ namespace ETicaretAPI.API.Controllers
             return Ok(product);
         }
 
-        [HttpGet]
-        public async Task Get()
-        {
-            var customeerId = Guid.NewGuid();
-            await _customerWriteRepository.AddAsync(new() { Id = customeerId, Name = "Max" });
+        //[HttpGet]
+        //public async Task Get()
+        //{
+        //    #region Adding Customer and Orders
 
-            _orderWriteRepository.AddAsync(new() { Description = "bla bla bla", Address = "Ankara, Cankaya", CustomerId = customeerId });
-            _orderWriteRepository.AddAsync(new() { Description = "bla bla bla", Address = "Ankara, Pursaklar", CustomerId = customeerId });
-            await _orderWriteRepository.SaveAsync();
+        //    //var customeerId = Guid.NewGuid();
+        //    //await _customerWriteRepository.AddAsync(new() { Id = customeerId, Name = "Max" });
+
+        //    //_orderWriteRepository.AddAsync(new() { Description = "bla bla bla", Address = "Ankara, Cankaya", CustomerId = customeerId });
+        //    //_orderWriteRepository.AddAsync(new() { Description = "bla bla bla", Address = "Ankara, Pursaklar", CustomerId = customeerId });
+        //    //await _orderWriteRepository.SaveAsync();
+
+        //    #endregion
+
+        //    #region UpdateDate Interceptor
+
+        //     Order order=await _orderReadRepository.GetByIdAsync("65d211dc-5efb-48f4-8325-da15b360d126");
+        //    order.Address = "Istanbul";
+        //    _orderWriteRepository.SaveAsync();
+
+        //    #endregion
+           
+        //}
+
+
+        //CORS Poltikasi icin test amacli olusturuldu
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok("Merhaba");
         }
     }
 }
