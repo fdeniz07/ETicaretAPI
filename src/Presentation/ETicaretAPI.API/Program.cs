@@ -1,4 +1,7 @@
+using ETicaretAPI.Application.Validators.FluentValidation.Products;
+using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Persistence.Extensions;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceServices();
 builder.Services.AddCors(options=> options.AddDefaultPolicy(policy=>policy.WithOrigins("http://localhost:4200","https://localhost:4200").AllowAnyHeader().AllowAnyMethod()));
-builder.Services.AddControllers();
+
+builder.Services.AddControllers(options=>options.Filters.Add<ValidationFilter>())
+    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>())
+    .ConfigureApiBehaviorOptions(options=>options.SuppressModelStateInvalidFilter=true); //Son özellik ile .net core un default filtresini kapatip, bizim hata kontrolünü ele almamiz saglar.
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
