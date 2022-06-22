@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using ETicaretAPI.Application.Abstract.Repositories.Products;
+using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,8 @@ namespace ETicaretAPI.API.Controllers
         private readonly IProductReadRepository _productReadRepository;
 
 
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+        public ProductsController(IProductWriteRepository productWriteRepository,
+            IProductReadRepository productReadRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -25,6 +27,7 @@ namespace ETicaretAPI.API.Controllers
         //[HttpGet]
         //public async Task Get()
         //{
+
         #region Örnek ilk verinin manuel eklenmesi
 
         //    //await _productWriteRepository.AddRangeAsync(new()
@@ -65,6 +68,7 @@ namespace ETicaretAPI.API.Controllers
         #endregion
 
         #region Interceptor Test
+
         //[HttpGet]
         //public async Task Get()
         //{
@@ -104,17 +108,26 @@ namespace ETicaretAPI.API.Controllers
         #endregion
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
         {
-            return Ok(_productReadRepository.GetAll().Select(p=>new
+            await Task.Delay(1500); //Client side spinner test
+            var totalCount = _productReadRepository.GetAll(false).Count(); //Veritabanimizdaki toplam kayit sayisini al
+            var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size)
+                .Take(pagination.Size).Select(p => new
+                {
+                    p.Id,
+                    p.Name,
+                    p.Stock,
+                    p.Price,
+                    p.CreatedDate,
+                    p.UpdatedDate
+                }).ToList(); //Sayfalama islemlerinde, sayfa basi 5 eleman görüntüleme seciliyse, 16. elamani gösterebilmek icin, 3x5 den sonraki 5 elemani getir
+
+            return Ok(new
             {
-                p.Id,
-                p.Name,
-                p.Stock,
-                p.Price,
-                p.CreatedDate,
-                p.UpdatedDate
-            }));
+                totalCount,
+                products
+            });
         }
 
         [HttpGet("{id}")]
@@ -128,7 +141,7 @@ namespace ETicaretAPI.API.Controllers
         public async Task<IActionResult> Post(VM_Create_Product model)
         {
 
-           await _productWriteRepository.AddAsync(new()
+            await _productWriteRepository.AddAsync(new()
             {
                 Name = model.Name,
                 Price = model.Price,
@@ -143,7 +156,7 @@ namespace ETicaretAPI.API.Controllers
         {
             Product product = await _productReadRepository.GetByIdAsync(model.Id);
             product.Stock = model.Stock;
-            product.Name=model.Name;
+            product.Name = model.Name;
             product.Price = model.Price;
             await _productWriteRepository.SaveAsync();
             return Ok();
