@@ -110,7 +110,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] Pagination pagination)
         {
-            await Task.Delay(1500); //Client side spinner test
+           /* await Task.Delay(1500); *///Client side spinner test
             var totalCount = _productReadRepository.GetAll(false).Count(); //Veritabanimizdaki toplam kayit sayisini al
             var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size)
                 .Take(pagination.Size).Select(p => new
@@ -133,6 +133,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
+            //await Task.Delay(5000);
             return Ok(await _productReadRepository.GetByIdAsync(id, false));
         }
 
