@@ -2,7 +2,7 @@
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Persistence.Contexts;
 
-namespace ETicaretAPI.Persistence.Concrete.Repositories.Orders
+namespace ETicaretAPI.Persistence.Concrete.Repositories
 {
     public class OrderReadRepository : GenericReadRepository<Order>, IOrderReadRepository
     {

@@ -2,7 +2,7 @@
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Persistence.Contexts;
 
-namespace ETicaretAPI.Persistence.Concrete.Repositories.Customers
+namespace ETicaretAPI.Persistence.Concrete.Repositories
 {
     public class CustomerWriteRepository : GenericWriteRepository<Customer>, ICustomerWriteRepository
     {
