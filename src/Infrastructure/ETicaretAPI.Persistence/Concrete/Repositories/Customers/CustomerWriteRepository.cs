@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Abstract.Repositories.Customers;
+﻿using ETicaretAPI.Application.Abstracts.Repositories.Customers;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Persistence.Contexts;
 

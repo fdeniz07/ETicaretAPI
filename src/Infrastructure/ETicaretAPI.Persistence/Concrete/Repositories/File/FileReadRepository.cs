@@ -1,4 +1,4 @@
-﻿using ETicaretAPI.Application.Abstract.Repositories;
+﻿using ETicaretAPI.Application.Abstracts.Repositories;
 using ETicaretAPI.Persistence.Contexts;
 
 namespace ETicaretAPI.Persistence.Concrete.Repositories

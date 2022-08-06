@@ -1,7 +1,7 @@
-﻿using ETicaretAPI.Application.Abstract.Repositories;
-using ETicaretAPI.Application.Abstract.Repositories.Customers;
-using ETicaretAPI.Application.Abstract.Repositories.Orders;
-using ETicaretAPI.Application.Abstract.Repositories.Products;
+﻿using ETicaretAPI.Application.Abstracts.Repositories;
+using ETicaretAPI.Application.Abstracts.Repositories.Customers;
+using ETicaretAPI.Application.Abstracts.Repositories.Orders;
+using ETicaretAPI.Application.Abstracts.Repositories.Products;
 using ETicaretAPI.Persistence.Concrete.Repositories;
 using ETicaretAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;

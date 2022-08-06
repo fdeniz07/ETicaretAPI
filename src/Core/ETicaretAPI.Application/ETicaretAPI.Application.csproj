@@ -17,4 +17,10 @@
     <ProjectReference Include="..\ETicaretAPI.Domain\ETicaretAPI.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstracts\Storages\Azure\" />
+    <Folder Include="Abstracts\Storages\AWS\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>
