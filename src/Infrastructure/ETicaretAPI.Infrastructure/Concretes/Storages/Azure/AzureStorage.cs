@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ETicaretAPI.Infrastructure.Concretes.Storages.Azure
 {
-    public class AzureStorage : IAzureStorage
+    public class AzureStorage : Storage, IAzureStorage
     {
         readonly BlobServiceClient _blobServiceClient;
         BlobContainerClient _blobContainerClient;
@@ -15,9 +15,7 @@ namespace ETicaretAPI.Infrastructure.Concretes.Storages.Azure
         {
             _blobServiceClient = new(configuration["Storage:Azure"]);
         }
-
-
-        public async Task DeleteAsync(string fileName, string containerName)
+        public async Task DeleteAsync(string containerName, string fileName)
         {
             _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             BlobClient blobClient = _blobContainerClient.GetBlobClient(fileName);
@@ -45,9 +43,11 @@ namespace ETicaretAPI.Infrastructure.Concretes.Storages.Azure
             List<(string fileName, string pathOrContainerName)> datas = new();
             foreach (IFormFile file in files)
             {
-                BlobClient blobClient = _blobContainerClient.GetBlobClient(file.Name);
+                string fileNewName = await FileRenameAsync(containerName, file.Name, HasFile);
+
+                BlobClient blobClient = _blobContainerClient.GetBlobClient(fileNewName);
                 await blobClient.UploadAsync(file.OpenReadStream());
-                datas.Add((file.Name, containerName));
+                datas.Add((fileNewName, $"{containerName}/{fileNewName}"));
             }
             return datas;
         }
