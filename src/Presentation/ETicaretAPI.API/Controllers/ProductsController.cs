@@ -255,7 +255,11 @@ namespace ETicaretAPI.API.Controllers
 
             #endregion
 
-            var datas = await _storageService.UploadAsync("resource/files", Request.Form.Files);
+            //Asagidaki kod local storage icin uygun iken cloud icin path gecersizdir.
+            //var datas = await _storageService.UploadAsync("resource/files", Request.Form.Files);
+
+            //Cloud icin gecerli path yazimi asagidaki gibidir
+            var datas = await _storageService.UploadAsync("files", Request.Form.Files);
 
             await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
             {

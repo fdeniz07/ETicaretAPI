@@ -1,5 +1,6 @@
 using ETicaretAPI.Application.Validators.FluentValidation.Products;
 using ETicaretAPI.Infrastructure;
+using ETicaretAPI.Infrastructure.Concretes.Storages.Azure;
 using ETicaretAPI.Infrastructure.Concretes.Storages.Local;
 using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Persistence.Extensions;
@@ -13,7 +14,9 @@ builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 
 //builder.Services.AddStorage(StorageType.Azure); //TODO Servis eklenecek
-builder.Services.AddStorage<LocalStorage>();
+//builder.Services.AddStorage<LocalStorage>();
+builder.Services.AddStorage<AzureStorage>();
+
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()));
 

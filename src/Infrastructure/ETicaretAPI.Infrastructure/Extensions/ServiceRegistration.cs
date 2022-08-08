@@ -1,5 +1,6 @@
 ﻿using ETicaretAPI.Application.Abstracts.Storages;
 using ETicaretAPI.Infrastructure.Concretes.Storages;
+using ETicaretAPI.Infrastructure.Concretes.Storages.Azure;
 using ETicaretAPI.Infrastructure.Concretes.Storages.Local;
 using ETicaretAPI.Infrastructure.Enums;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ namespace ETicaretAPI.Infrastructure
             services.AddScoped<IStorage, T>();
         }
 
+        //Asagidaki metot bir overload olup, tercih edilmemektedir. Aksi durumda koda bagimli kaliriz. Sadece böyle olabilecegini de görmek amaciyla asagidaki kod olusturulmustur
         public static void AddStorage(this IServiceCollection services, StorageType storageType)
         {
             switch (storageType)
@@ -26,6 +28,7 @@ namespace ETicaretAPI.Infrastructure
                     services.AddScoped<IStorage, LocalStorage>();
                     break;
                 case StorageType.Azure:
+                    services.AddScoped<IStorage, AzureStorage>();
                     break;
                 case StorageType.AWS:
                     break;

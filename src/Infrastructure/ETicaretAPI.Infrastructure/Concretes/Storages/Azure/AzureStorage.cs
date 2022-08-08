@@ -1,28 +1,55 @@
-﻿using ETicaretAPI.Application.Abstracts.Storages.Azure;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using ETicaretAPI.Application.Abstracts.Storages.Azure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace ETicaretAPI.Infrastructure.Concretes.Storages.Azure
 {
     public class AzureStorage : IAzureStorage
     {
-        public Task DeleteAsync(string fileName, string pathOrContainerName)
+        readonly BlobServiceClient _blobServiceClient;
+        BlobContainerClient _blobContainerClient;
+
+        public AzureStorage(IConfiguration configuration)
         {
-            throw new NotImplementedException();
+            _blobServiceClient = new(configuration["Storage:Azure"]);
         }
 
-        public List<string> GetFiles(string pathOrContainerName)
+
+        public async Task DeleteAsync(string fileName, string containerName)
         {
-            throw new NotImplementedException();
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(fileName);
+            await blobClient.DeleteAsync();
         }
 
-        public bool HasFile(string pathOrContainerName, string fileName)
+        public List<string> GetFiles(string containerName)
         {
-            throw new NotImplementedException();
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            return _blobContainerClient.GetBlobs().Select(b => b.Name).ToList();
         }
 
-        public Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string pathOrContainerName, IFormFileCollection files)
+        public bool HasFile(string containerName, string fileName)
         {
-            throw new NotImplementedException();
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            return _blobContainerClient.GetBlobs().Any(b => b.Name == fileName);
+        }
+
+        public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string containerName, IFormFileCollection files)
+        {
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            await _blobContainerClient.CreateIfNotExistsAsync();
+            await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.BlobContainer);
+
+            List<(string fileName, string pathOrContainerName)> datas = new();
+            foreach (IFormFile file in files)
+            {
+                BlobClient blobClient = _blobContainerClient.GetBlobClient(file.Name);
+                await blobClient.UploadAsync(file.OpenReadStream());
+                datas.Add((file.Name, containerName));
+            }
+            return datas;
         }
     }
 }
