@@ -255,18 +255,35 @@ namespace ETicaretAPI.API.Controllers
 
             #endregion
 
+            #region Upload Local and Cloud
+
             //Asagidaki kod local storage icin uygun iken cloud icin path gecersizdir.
             //var datas = await _storageService.UploadAsync("resource/files", Request.Form.Files);
 
             //Cloud icin gecerli path yazimi asagidaki gibidir
-            var datas = await _storageService.UploadAsync("files", Request.Form.Files);
+            //var datas = await _storageService.UploadAsync("files", Request.Form.Files);
 
-            await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+            //await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+            //{
+            //    FileName = d.fileName,
+            //    Path = d.pathOrContainerName,
+            //    Storage=_storageService.StorageName
+            //}).ToList());
+            //await _productImageFileWriteRepository.SaveAsync();
+
+            #endregion
+
+           List<(string fileName, string pathOrContainerName)> result = await _storageService.UploadAsync("photo-images", Request.Form.Files);
+
+
+           await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
             {
-                FileName = d.fileName,
-                Path = d.pathOrContainerName,
-                Storage=_storageService.StorageName
+                FileName = r.fileName,
+                Path = r.pathOrContainerName,
+                Storage= _storageService.StorageName,
+                Size=0
             }).ToList());
+
             await _productImageFileWriteRepository.SaveAsync();
 
             return Ok();
