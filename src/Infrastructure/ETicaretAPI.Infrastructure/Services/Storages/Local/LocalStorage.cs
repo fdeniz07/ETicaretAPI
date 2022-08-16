@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace ETicaretAPI.Infrastructure.Concretes.Storages.Local
+namespace ETicaretAPI.Infrastructure.Services.Storages.Local
 {
     public class LocalStorage : Storage,ILocalStorage
     {

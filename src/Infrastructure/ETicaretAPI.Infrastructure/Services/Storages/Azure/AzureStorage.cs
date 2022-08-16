@@ -4,7 +4,7 @@ using ETicaretAPI.Application.Abstracts.Storages.Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
-namespace ETicaretAPI.Infrastructure.Concretes.Storages.Azure
+namespace ETicaretAPI.Infrastructure.Services.Storages.Azure
 {
     public class AzureStorage : Storage, IAzureStorage
     {

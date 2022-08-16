@@ -1,7 +1,7 @@
 ﻿using ETicaretAPI.Application.Abstracts.Storages;
 using Microsoft.AspNetCore.Http;
 
-namespace ETicaretAPI.Infrastructure.Concretes.Storages
+namespace ETicaretAPI.Infrastructure.Services.Storages
 {
     public class StorageService : IStorageService
     {

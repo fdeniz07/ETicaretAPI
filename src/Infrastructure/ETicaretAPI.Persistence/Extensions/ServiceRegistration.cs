@@ -2,7 +2,7 @@
 using ETicaretAPI.Application.Abstracts.Repositories.Customers;
 using ETicaretAPI.Application.Abstracts.Repositories.Orders;
 using ETicaretAPI.Application.Abstracts.Repositories.Products;
-using ETicaretAPI.Persistence.Concrete.Repositories;
+using ETicaretAPI.Persistence.Repositories;
 using ETicaretAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

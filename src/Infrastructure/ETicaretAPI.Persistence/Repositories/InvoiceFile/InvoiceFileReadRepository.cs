@@ -1,7 +1,8 @@
 ﻿using ETicaretAPI.Application.Abstracts.Repositories;
 using ETicaretAPI.Persistence.Contexts;
+using ETicaretAPI.Persistence.Repositories;
 
-namespace ETicaretAPI.Persistence.Concrete.Repositories
+namespace ETicaretAPI.Persistence.Repositories
 {
     public class InvoiceFileReadRepository : GenericReadRepository<ETicaretAPI.Domain.Entities.InvoiceFile>, IInvoiceFileReadRepository
     {

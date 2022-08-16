@@ -1,7 +1,7 @@
 ﻿using ETicaretAPI.Application.Abstracts.Repositories;
 using ETicaretAPI.Persistence.Contexts;
 
-namespace ETicaretAPI.Persistence.Concrete.Repositories
+namespace ETicaretAPI.Persistence.Repositories
 {
     public class InvoiceFileWriteRepository : GenericWriteRepository<ETicaretAPI.Domain.Entities.InvoiceFile>, IInvoiceFileWriteRepository
     {

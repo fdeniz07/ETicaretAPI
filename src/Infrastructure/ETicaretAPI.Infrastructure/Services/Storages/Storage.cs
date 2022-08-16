@@ -1,6 +1,6 @@
 ﻿using ETicaretAPI.Infrastructure.Operations;
 
-namespace ETicaretAPI.Infrastructure.Concretes.Storages
+namespace ETicaretAPI.Infrastructure.Services.Storages
 {
     public abstract class Storage
     {

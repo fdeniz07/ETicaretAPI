@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Concretes\Storages\AWS\" />
+    <Folder Include="Services\Storages\AWS\" />
+    <Folder Include="Adapters\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,7 +4,7 @@ using ETicaretAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace ETicaretAPI.Persistence.Concrete.Repositories
+namespace ETicaretAPI.Persistence.Repositories
 {
     public class GenericWriteRepository<T> : IGenericWriteRepository<T> where T : BaseEntity
     {

@@ -4,7 +4,7 @@ using ETicaretAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace ETicaretAPI.Persistence.Concrete.Repositories
+namespace ETicaretAPI.Persistence.Repositories
 {
     public class GenericReadRepository<T> : IGenericReadRepository<T> where T : BaseEntity
     {

@@ -1,7 +1,7 @@
 ﻿using ETicaretAPI.Application.Abstracts.Storages;
-using ETicaretAPI.Infrastructure.Concretes.Storages;
-using ETicaretAPI.Infrastructure.Concretes.Storages.Azure;
-using ETicaretAPI.Infrastructure.Concretes.Storages.Local;
+using ETicaretAPI.Infrastructure.Services.Storages;
+using ETicaretAPI.Infrastructure.Services.Storages.Azure;
+using ETicaretAPI.Infrastructure.Services.Storages.Local;
 using ETicaretAPI.Infrastructure.Enums;
 using Microsoft.Extensions.DependencyInjection;
 
