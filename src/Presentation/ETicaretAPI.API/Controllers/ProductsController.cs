@@ -1,9 +1,12 @@
 ﻿using ETicaretAPI.Application.Abstracts.Repositories;
 using ETicaretAPI.Application.Abstracts.Repositories.Products;
 using ETicaretAPI.Application.Abstracts.Storages;
+using ETicaretAPI.Application.Features.Commands.CreateProduct;
+using ETicaretAPI.Application.Features.Queries.GetAllProduct;
 using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -20,7 +23,6 @@ namespace ETicaretAPI.API.Controllers
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-
         readonly IFileWriteRepository _fileWriteRepository;
         readonly IFileReadRepository _fileReadRepository;
         readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
@@ -30,8 +32,10 @@ namespace ETicaretAPI.API.Controllers
         readonly IStorageService _storageService;
         readonly IConfiguration _configuration;
 
+        readonly IMediator _mediator;
+
         public ProductsController(IProductWriteRepository productWriteRepository,
-            IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileWriteRepository fileWriteRepository, IFileReadRepository fileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IStorageService storageService, IConfiguration configuration)
+            IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileWriteRepository fileWriteRepository, IFileReadRepository fileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IStorageService storageService, IConfiguration configuration, IMediator mediator)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -44,6 +48,7 @@ namespace ETicaretAPI.API.Controllers
             _invoiceFileReadRepository = invoiceFileReadRepository;
             _storageService = storageService;
             _configuration = configuration;
+            _mediator = mediator;
         }
 
         #region Tracking Test
@@ -132,47 +137,45 @@ namespace ETicaretAPI.API.Controllers
         #endregion
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
         {
-            /* await Task.Delay(1500); *///Client side spinner test
-            var totalCount = _productReadRepository.GetAll(false).Count(); //Veritabanimizdaki toplam kayit sayisini al
-            var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size)
-                .Take(pagination.Size).Select(p => new
-                {
-                    p.Id,
-                    p.Name,
-                    p.Stock,
-                    p.Price,
-                    p.CreatedDate,
-                    p.UpdatedDate
-                }).ToList(); //Sayfalama islemlerinde, sayfa basi 5 eleman görüntüleme seciliyse, 16. elamani gösterebilmek icin, 3x5 den sonraki 5 elemani getir
+            #region Test Code Before CQRS Pattern
+            ///* await Task.Delay(1500); *///Client side spinner test
+            //var totalCount = _productReadRepository.GetAll(false).Count(); //Veritabanimizdaki toplam kayit sayisini al
+            //var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size)
+            //    .Take(pagination.Size).Select(p => new
+            //    {
+            //        p.Id,
+            //        p.Name,
+            //        p.Stock,
+            //        p.Price,
+            //        p.CreatedDate,
+            //        p.UpdatedDate
+            //    }).ToList(); //Sayfalama islemlerinde, sayfa basi 5 eleman görüntüleme seciliyse, 16. elamani gösterebilmek icin, 3x5 den sonraki 5 elemani getir
 
-            return Ok(new
-            {
-                totalCount,
-                products
-            });
+            //return Ok(new
+            //{
+            //    totalCount,
+            //    products
+            //});
+            #endregion
+
+            GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            //await Task.Delay(5000);
+
             return Ok(await _productReadRepository.GetByIdAsync(id, false));
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Post(VM_Create_Product model)
+        public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
-
-            await _productWriteRepository.AddAsync(new()
-            {
-                Name = model.Name,
-                Price = model.Price,
-                Stock = model.Stock
-            });
-            await _productWriteRepository.SaveAsync();
+            CreateProductCommandResponse response = await _mediator.Send(createProductCommandRequest);
             return StatusCode((int)HttpStatusCode.Created);
         }
 

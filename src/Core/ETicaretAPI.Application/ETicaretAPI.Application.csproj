@@ -10,6 +10,8 @@
     <PackageReference Include="FluentValidation" Version="11.0.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.3" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.0.3" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
   </ItemGroup>
 
@@ -19,11 +21,8 @@
 
   <ItemGroup>
     <Folder Include="Abstracts\Storages\AWS\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Features\Commands\" />
     <Folder Include="Features\Constants\" />
     <Folder Include="Features\Dtos\" />
-    <Folder Include="Features\Queries\" />
   </ItemGroup>
 
 </Project>
