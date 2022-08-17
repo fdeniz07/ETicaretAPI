@@ -1,9 +1,9 @@
 ﻿using ETicaretAPI.Application.Abstracts.Repositories;
 using ETicaretAPI.Application.Abstracts.Repositories.Products;
 using ETicaretAPI.Application.Abstracts.Storages;
-using ETicaretAPI.Application.Features.Commands.CreateProduct;
-using ETicaretAPI.Application.Features.Queries.GetAllProduct;
-using ETicaretAPI.Application.RequestParameters;
+using ETicaretAPI.Application.Features.Commands.Product.CreateProduct;
+using ETicaretAPI.Application.Features.Queries.Product.GetAllProduct;
+using ETicaretAPI.Application.Features.Queries.Product.GetByIdProduct;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
 using MediatR;
@@ -165,12 +165,11 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get([FromRoute]GetByIdProductQueryRequest getByIdProductQueryRequest)
         {
-
-            return Ok(await _productReadRepository.GetByIdAsync(id, false));
+            GetByIdProductQueryResponse response  = await _mediator.Send(getByIdProductQueryRequest);
+            return Ok(response);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
@@ -198,9 +197,124 @@ namespace ETicaretAPI.API.Controllers
             return Ok();
         }
 
+        #region Test Code Before CQRS Pattern
+        //[HttpPost("[action]")]
+        //public async Task<IActionResult> Upload(string id)
+        //{
+
+        #region TestProcess
+        //wwwroot/resource/product-images
+        //string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "resource/product-images");
+
+        //if (!Directory.Exists(uploadPath))
+        //    Directory.CreateDirectory(uploadPath);
+
+        //Random r = new();
+        //foreach (IFormFile file in Request.Form.Files)
+        //{
+        //    string fullPath = Path.Combine(uploadPath, $"{r.Next()}{Path.GetExtension(file.FileName)}");
+
+        //    using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
+        //    await file.CopyToAsync(fileStream);
+        //    await fileStream.FlushAsync();
+        //}
+        #endregion
+
+        #region Table Per Hierarchy
+
+        #region ImageFile Upload
+        //var datas = await _fileService.UploadAsync("resource/product-images", Request.Form.Files);
+        //await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+        //{
+        //    FileName = d.fileName,
+        //    Path = d.path
+        //}).ToList());
+        //await _productImageFileWriteRepository.SaveAsync();
+        #endregion
+
+        #region InvoiceFile Upload
+        //var datas = await _fileService.UploadAsync("resource/invoices", Request.Form.Files);
+        //await _invoiceFileWriteRepository.AddRangeAsync(datas.Select(d => new InvoiceFile()
+        //{
+        //    FileName = d.fileName,
+        //    Path = d.path,
+        //    Price = new Random().Next()
+        //}).ToList()); ;
+        //await _invoiceFileWriteRepository.SaveAsync();
+        #endregion
+
+        #region File Upload
+        //var datas = await FileService.UploadAsync("resource/files", Request.Form.Files);
+        //await _fileWriteRepository.AddRangeAsync(datas.Select(d => new ETicaretAPI.Domain.Entities.File()
+        //{
+        //    FileName = d.fileName,
+        //    Path = d.path
+        //}).ToList()); ;
+        //await _fileWriteRepository.SaveAsync();
+        #endregion
+
+        #region Queries
+        //var d1 = _fileReadRepository.GetAll();
+        //var d2 = _productImageFileReadRepository.GetAll();
+        //var d3 = _invoiceFileReadRepository.GetAll();
+        #endregion
+
+        #endregion
+
+        #region Upload Local and Cloud
+
+        //Asagidaki kod local storage icin uygun iken cloud icin path gecersizdir.
+        //var datas = await _storageService.UploadAsync("resource/files", Request.Form.Files);
+
+        //Cloud icin gecerli path yazimi asagidaki gibidir
+        //var datas = await _storageService.UploadAsync("files", Request.Form.Files);
+
+        //await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+        //{
+        //    FileName = d.fileName,
+        //    Path = d.pathOrContainerName,
+        //    Storage=_storageService.StorageName
+        //}).ToList());
+        //await _productImageFileWriteRepository.SaveAsync();
+
+        #endregion
+
+        //List<(string fileName, string pathOrContainerName)> result = await _storageService.UploadAsync("photo-images", Request.Form.Files);
+
+        //Product product = await _productReadRepository.GetByIdAsync(id);
+
+        //foreach (var r in result)
+        //{
+        //    product.ProductImageFiles.Add(new()
+        //    {
+        //        FileName = r.fileName,
+        //        Path = r.pathOrContainerName,
+        //        Storage = _storageService.StorageName,
+        //        Size = 0,
+        //        Products = new List<Product>() { product}
+
+        //    });
+        //}
+
+        //    await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
+        //    {
+        //        FileName = r.fileName,
+        //        Path = r.pathOrContainerName,
+        //        Storage = _storageService.StorageName,
+        //        Size = 0,
+        //        Products = new List<Product>() { product }
+        //    }).ToList());
+
+        //    await _productImageFileWriteRepository.SaveAsync();
+
+        //    return Ok();
+        //}
+        #endregion
+
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload(string id)
         {
+            
 
             #region TestProcess
             //wwwroot/resource/product-images
