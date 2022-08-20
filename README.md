@@ -3,7 +3,7 @@ This project is a E-Commerce Project. ASP.NET Core 6 + Angular + Onion Architect
 
 Technologies and structures used
 
-Backand:
+Backend:
 - ASP.NET Core 6
 - Onion Architecture
 - Code First
