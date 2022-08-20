@@ -15,7 +15,7 @@ Backend:
 - Generic Repository Design Pattern
 - Fluent Validation
 - Pagination
-- File & Image Upload mechanism - Table Per Hierarchy (Loaal and Cloud)
+- File & Image Upload mechanism - Table Per Hierarchy (Local and Cloud)
 - Storage File Management infrastructure
 - Azure Blob intergration
 - ASP.NET Core Identity
