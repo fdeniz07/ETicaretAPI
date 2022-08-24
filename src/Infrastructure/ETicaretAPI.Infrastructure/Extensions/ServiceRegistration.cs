@@ -4,14 +4,18 @@ using ETicaretAPI.Infrastructure.Services.Storages.Azure;
 using ETicaretAPI.Infrastructure.Services.Storages.Local;
 using ETicaretAPI.Infrastructure.Enums;
 using Microsoft.Extensions.DependencyInjection;
+using ETicaretAPI.Application.Abstracts.Token;
+using ETicaretAPI.Infrastructure.Services.Token;
 
 namespace ETicaretAPI.Infrastructure
 {
     public static class ServiceRegistration
     {
-        public static void AddInfrastructureServices(this IServiceCollection services)
+        public static void AddInfrastructureServices(this IServiceCollection serviceCollection)
         {
-            services.AddScoped<IStorageService, StorageService>();
+
+            serviceCollection.AddScoped<IStorageService, StorageService>();
+            serviceCollection.AddScoped<ITokenHandler, TokenHandler>();
         }
 
         public static void AddStorage<T>(this IServiceCollection services) where T : Storage, IStorage
@@ -20,20 +24,20 @@ namespace ETicaretAPI.Infrastructure
         }
 
         //Asagidaki metot bir overload olup, tercih edilmemektedir. Aksi durumda koda bagimli kaliriz. Sadece böyle olabilecegini de görmek amaciyla asagidaki kod olusturulmustur
-        public static void AddStorage(this IServiceCollection services, StorageType storageType)
+        public static void AddStorage(this IServiceCollection serviceCollection, StorageType storageType)
         {
             switch (storageType)
             {
                 case StorageType.Local:
-                    services.AddScoped<IStorage, LocalStorage>();
+                    serviceCollection.AddScoped<IStorage, LocalStorage>();
                     break;
                 case StorageType.Azure:
-                    services.AddScoped<IStorage, AzureStorage>();
+                    serviceCollection.AddScoped<IStorage, AzureStorage>();
                     break;
                 case StorageType.AWS:
                     break;
                 default:
-                    services.AddScoped<IStorage, LocalStorage>();
+                    serviceCollection.AddScoped<IStorage, LocalStorage>();
                     break;
             }
         }
