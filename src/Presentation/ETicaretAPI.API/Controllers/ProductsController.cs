@@ -18,7 +18,7 @@ namespace ETicaretAPI.API.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes ="Admin")]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class ProductsController : ControllerBase
     {
         readonly IMediator _mediator;
@@ -403,11 +403,11 @@ namespace ETicaretAPI.API.Controllers
         [HttpGet("[action]/{Id}")]
         public async Task<IActionResult> GetProductImages([FromRoute] GetProductImageQueryRequest getProductImageQueryRequest)
         {
-           List<GetProductImageQueryResponse> response=await _mediator.Send(getProductImageQueryRequest);
+            List<GetProductImageQueryResponse> response = await _mediator.Send(getProductImageQueryRequest);
             return Ok(response);
         }
         [HttpDelete("[action]/{Id}")]
-        public async Task<IActionResult> DeleteProductImage([FromRoute] RemoveProductImageCommandRequest removeProductImageCommandRequest,[FromQuery] string ImageId)
+        public async Task<IActionResult> DeleteProductImage([FromRoute] RemoveProductImageCommandRequest removeProductImageCommandRequest, [FromQuery] string ImageId)
         {
             removeProductImageCommandRequest.ImageId = ImageId;
             RemoveProductImageCommandResponse response = await _mediator.Send(removeProductImageCommandRequest);
