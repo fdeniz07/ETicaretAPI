@@ -2,6 +2,6 @@
 {
     public interface ITokenHandler
     {
-        Dtos.Token CreateAccessToken(int minute);
+        Dtos.TokenDto CreateAccessToken(int minute);
     }
 }

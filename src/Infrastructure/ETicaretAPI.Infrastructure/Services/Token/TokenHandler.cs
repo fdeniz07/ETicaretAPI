@@ -15,9 +15,9 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public Application.Dtos.Token CreateAccessToken(int minute)
+        public Application.Dtos.TokenDto CreateAccessToken(int minute)
         {
-            Application.Dtos.Token token = new();
+            Application.Dtos.TokenDto token = new();
 
             //Security Key'in simetrigini aliyoruz
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));

@@ -34,7 +34,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.LoginUser
             if (result.Succeeded) // Authentication basarili
             {
                 //...... Yetkileri belirlememiz gerekiyor
-                Token token = _tokenHandler.CreateAccessToken(5);
+                TokenDto token = _tokenHandler.CreateAccessToken(5);
                 return new LoginUserSuccessCommandResponse()
                 {
                     Token = token

@@ -1,6 +1,6 @@
 ﻿namespace ETicaretAPI.Application.Dtos
 {
-    public class Token
+    public class TokenDto
     {
         public string AccessToken { get; set; }
 

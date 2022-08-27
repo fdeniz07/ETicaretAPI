@@ -3,6 +3,7 @@ using ETicaretAPI.Application.Dtos;
 using Google.Apis.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using UM = ETicaretAPI.Domain.Entities.Identity;
 
 namespace ETicaretAPI.Application.Features.Commands.AppUser.GoogleLogin
@@ -11,18 +12,23 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.GoogleLogin
     {
         readonly UserManager<UM.AppUser> _userManager;
         readonly ITokenHandler _tokenHandler;
+        readonly IConfiguration _configuration;
 
-        public GoogleLoginCommandHandler(UserManager<UM.AppUser> userManager, ITokenHandler tokenHandler)
+        public GoogleLoginCommandHandler(UserManager<UM.AppUser> userManager, ITokenHandler tokenHandler, IConfiguration configuration)
         {
             _userManager = userManager;
             _tokenHandler = tokenHandler;
+            _configuration = configuration;
         }
 
         public async Task<GoogleLoginCommandResponse> Handle(GoogleLoginCommandRequest request, CancellationToken cancellationToken)
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                Audience = new List<string> { "735998444028-j902tqh9qosi40vp3bo13ou0922du1cm.apps.googleusercontent.com" }
+                //Audience = new List<string> { _configuration["SocialLogins:GoogleLogin:ClientId"]}
+
+
+            Audience = new List<string> {"735998444028-j902tqh9qosi40vp3bo13ou0922du1cm.apps.googleusercontent.com"}
             };
 
             var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken, settings);
@@ -54,7 +60,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.GoogleLogin
                 throw new Exception("Invalid external authentication");
 
 
-            Token token = _tokenHandler.CreateAccessToken(5);
+            TokenDto token = _tokenHandler.CreateAccessToken(5);
 
             return new()
             {
