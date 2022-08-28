@@ -32,6 +32,7 @@ namespace ETicaretAPI.Persistence.Services
         async Task<TokenDto> CreateUserExternalAsync(AppUser user, string email, string name, UserLoginInfo info, int accessTokenLifeTime)
         {
             bool result = user != null;
+
             if (user == null)
             {
                 user = await _userManager.FindByEmailAsync(email); // Eger ilgili sosyal logindeki email, bizim localde tuttugumuz kullanici email adresi ile ayni mi kontrolü
@@ -95,7 +96,7 @@ namespace ETicaretAPI.Persistence.Services
             var info = new UserLoginInfo("GOOGLE", payload.Subject, "GOOGLE");
             UM.AppUser user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
-            return await CreateUserExternalAsync(user, payload.Email,payload.Name, info,accessTokenLifeTime);
+            return await CreateUserExternalAsync(user, payload.Email, payload.Name, info, accessTokenLifeTime);
         }
 
         public async Task<TokenDto> LoginAsync(string usernameOrEmail, string password, int accessTokenLifeTime)
