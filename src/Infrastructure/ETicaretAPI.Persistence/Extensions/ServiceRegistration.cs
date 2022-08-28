@@ -7,6 +7,9 @@ using ETicaretAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ETicaretAPI.Domain.Entities.Identity;
+using ETicaretAPI.Application.Abstracts.Services;
+using ETicaretAPI.Persistence.Services;
+using ETicaretAPI.Application.Abstracts.Services.Authentications;
 
 namespace ETicaretAPI.Persistence.Extensions
 {
@@ -37,6 +40,12 @@ namespace ETicaretAPI.Persistence.Extensions
             services.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
             services.AddScoped<IProductImageFileReadRepository, ProductImageFileReadRepository>();
             services.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
+
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IExternalAuthentication, AuthService>();
+            services.AddScoped<IInternalAuthentication, AuthService>();
         }
     }
 }
