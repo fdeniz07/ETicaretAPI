@@ -58,11 +58,10 @@ namespace ETicaretAPI.Persistence.Services
                 await _userManager.AddLoginAsync(user, info); //AspNetUserLogins
 
                 TokenDto token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
-
-               await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration,15);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
                 return token;
             }
-            throw new Exception("Invalid external authentication");
+            throw new Exception("Invalid external authentication.");
         }
 
         public async Task<TokenDto> FacebookLoginAsync(string authToken, int accessTokenLifeTime)
@@ -137,16 +136,14 @@ namespace ETicaretAPI.Persistence.Services
         public async Task<TokenDto> RefreshTokenLoginAsync(string refreshToken)
         {
             AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
-
-            if (user !=null && user?.RefreshTokenEndDate>DateTime.UtcNow)
+            if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
             {
                 TokenDto token = _tokenHandler.CreateAccessToken(15);
-                await _userService.UpdateRefreshToken(token.RefreshToken,user,token.Expiration, 15);
-
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
                 return token;
             }
             else
-            throw new NotFoundUserException();
+                throw new NotFoundUserException();
         }
     }
 }

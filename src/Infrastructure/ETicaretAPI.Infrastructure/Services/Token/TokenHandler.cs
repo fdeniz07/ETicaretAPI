@@ -58,7 +58,7 @@ namespace ETicaretAPI.Infrastructure.Services.Token
 
             //}
 
-            using RandomNumberGenerator random =RandomNumberGenerator.Create();
+            using RandomNumberGenerator random = RandomNumberGenerator.Create();
             random.GetBytes(number);
             return Convert.ToBase64String(number);
 

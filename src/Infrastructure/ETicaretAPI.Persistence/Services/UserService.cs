@@ -42,7 +42,7 @@ namespace ETicaretAPI.Persistence.Services
         {
 
             // Ilgili kullaniciya ait bilgileri kontrol ediyoruz. AccessToken varsa üzerine random süre koyarak refreshtoken olusturuyoruz.
- 
+
             if (user != null)
             {
                 user.RefreshToken = refreshToken;
@@ -50,7 +50,7 @@ namespace ETicaretAPI.Persistence.Services
                 await _userManager.UpdateAsync(user);
             }
             else
-            throw new NotFoundUserException();
+                throw new NotFoundUserException();
 
         }
     }
