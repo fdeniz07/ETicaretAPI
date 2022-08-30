@@ -1,8 +1,10 @@
 ﻿using ETicaretAPI.Application.Abstracts.Token;
 using ETicaretAPI.Application.Dtos;
+using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -17,7 +19,7 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             _configuration = configuration;
         }
 
-        public Application.Dtos.TokenDto CreateAccessToken(int second)
+        public Application.Dtos.TokenDto CreateAccessToken(int second, AppUser user)
         {
             Application.Dtos.TokenDto token = new();
 
@@ -34,7 +36,8 @@ namespace ETicaretAPI.Infrastructure.Services.Token
                 issuer: _configuration["Token:Issuer"],
                 expires: token.Expiration,
                 notBefore: DateTime.UtcNow,
-                signingCredentials: signingCredentials
+                signingCredentials: signingCredentials,
+                claims: new List<Claim> { new(ClaimTypes.Name, user.UserName) }
                 );
 
             //Token olusturucu sinifindan bir örnek alalim
@@ -49,7 +52,7 @@ namespace ETicaretAPI.Infrastructure.Services.Token
 
         public string CreateRefreshToken()
         {
-           byte[] number = new byte[32];
+            byte[] number = new byte[32];
 
             //IDisposable türünde olan nesneler kullanilirken using ile kullanilirlar. Eger ilgili nesneden sonra baska fonksiyonlar kullanilacaksa {} tirnakli versiyonu tercih edilebilir. Ilgili scope kapandiktan sonra bu metot hafizadan cikartilir.
 
