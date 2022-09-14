@@ -18,6 +18,7 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllProduct
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Tüm ürünler listelendi...");
+            throw new Exception("Hata alindi!");
 
             /* await Task.Delay(1500); *///Client side spinner test
             var totalCount = _productReadRepository.GetAll(false).Count(); //Veritabanimizdaki toplam kayit sayisini al
