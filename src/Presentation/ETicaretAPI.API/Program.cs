@@ -1,23 +1,22 @@
+using ETicaretAPI.API.Configurations.ColumnWriters;
+using ETicaretAPI.API.Extensions;
+using ETicaretAPI.Application.Extensions;
 using ETicaretAPI.Application.Validators.FluentValidation.Products;
 using ETicaretAPI.Infrastructure;
-using ETicaretAPI.Infrastructure.Services.Storages.Azure;
-using ETicaretAPI.Infrastructure.Services.Storages.Local;
 using ETicaretAPI.Infrastructure.Filters;
+using ETicaretAPI.Infrastructure.Services.Storages.Azure;
 using ETicaretAPI.Persistence.Extensions;
 using FluentValidation.AspNetCore;
-using ETicaretAPI.Application.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Serilog.Context;
 using Serilog.Core;
 using Serilog.Sinks.PostgreSQL;
 using System.Security.Claims;
-using Serilog.Context;
-using ETicaretAPI.API.Configurations.ColumnWriters;
-using ETicaretAPI.API.Extensions;
-using Microsoft.AspNetCore.HttpLogging;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
+using System.Text;
+using ETicaretAPI.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

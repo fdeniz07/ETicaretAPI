@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ETicaretAPI.Application.Abstracts.Token;
 using ETicaretAPI.Infrastructure.Services.Token;
 
-namespace ETicaretAPI.Infrastructure
+namespace ETicaretAPI.Infrastructure.Extensions
 {
     public static class ServiceRegistration
     {
