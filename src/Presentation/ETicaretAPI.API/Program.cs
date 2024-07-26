@@ -2,10 +2,11 @@ using ETicaretAPI.API.Configurations.ColumnWriters;
 using ETicaretAPI.API.Extensions;
 using ETicaretAPI.Application.Extensions;
 using ETicaretAPI.Application.Validators.FluentValidation.Products;
-using ETicaretAPI.Infrastructure;
+using ETicaretAPI.Infrastructure.Extensions;
 using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Infrastructure.Services.Storages.Azure;
 using ETicaretAPI.Persistence.Extensions;
+using ETicaretAPI.SignalR.Extensions;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
@@ -16,7 +17,6 @@ using Serilog.Core;
 using Serilog.Sinks.PostgreSQL;
 using System.Security.Claims;
 using System.Text;
-using ETicaretAPI.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
+builder.Services.AddSignalRServices();
 
 //builder.Services.AddStorage(StorageType.Azure); //TODO Servis eklenecek
 //builder.Services.AddStorage<LocalStorage>();
@@ -128,5 +129,6 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
+app.MapHubs(); //SignalR servislerini buradan cagiriyoruz.
 
 app.Run();
