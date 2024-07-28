@@ -18,10 +18,10 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllProduct
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Tüm ürünler listelendi...");
-            throw new Exception("Hata alindi!");
+            //throw new Exception("Hata alindi!");
 
             /* await Task.Delay(1500); *///Client side spinner test
-            var totalCount = _productReadRepository.GetAll(false).Count(); //Veritabanimizdaki toplam kayit sayisini al
+            var totalProductCount = _productReadRepository.GetAll(false).Count(); //Veritabanimizdaki toplam kayit sayisini al
             var products = _productReadRepository.GetAll(false).Skip(request.Page * request.Size)
                 .Take(request.Size).Select(p => new
                 {
@@ -36,7 +36,7 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllProduct
             return new()
             {
                 Products = products,
-                TotalCount = totalCount,
+                TotalProductCount = totalProductCount,
             };
         }
     }
